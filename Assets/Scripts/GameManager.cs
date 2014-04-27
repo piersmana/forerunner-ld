@@ -31,10 +31,49 @@ public class GameManager : MonoBehaviour {
 
 	void Start() {
 		p_damage.playerDamaged += CameraShake;
-		StartCoroutine("StartGame");
+		StartCoroutine("OpeningSequence");
+	}
+
+	IEnumerator OpeningSequence() {
+		cam.SetText("your most precious cargo:\n\n\n\na message...\n\n\n\n...and a warning");
+		cam.FadeToColor(Color.black, 40f);
+		cam.FadeTextIn();
+
+		yield return new WaitForSeconds(4);
+
+		cam.FadeToColor(Color.black, 2f);
+		cam.FadeTextOut();
+
+		yield return new WaitForSeconds(2);
+
+		cam.SetText("you are the FORERUNNER\n\n\n");
+		cam.FadeTextIn();
+		
+		yield return new WaitForSeconds(2);
+
+		cam.FadeToColor(Color.clear, 2f);
+
+		yield return new WaitForSeconds(1);
+
+		cam.FadeTextOut();
+
+		yield return new WaitForSeconds(2);
+
+		cam.FadeToColor(Color.clear, 40f);
+		cam.SetText("press [SPACE] to fly\n\n\n");
+		cam.FadeTextIn();
+
+		while (true) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				StartCoroutine("StartGame");
+				break;
+			}
+			yield return null;
+		}
 	}
 
 	IEnumerator StartGame() {
+		cam.FadeTextOut();
 		for (int i = 0; i < levels.Length; i++) {
 			while (true) { 
 				for (int j = 0; j < levels[i].countHazards; j++) {

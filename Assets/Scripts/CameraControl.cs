@@ -12,9 +12,13 @@ public class CameraControl : MonoBehaviour {
 	private float fadeSpeed = 10f;
 	private Material fader;
 
+	private TextMesh text;
+	private Color textColorTarget = Color.clear;
+
 	void Awake() {
 		t = transform;
 		fader = GameObject.Find("ScreenFade").renderer.material;
+		text = GameObject.Find ("ScreenText").GetComponent<TextMesh>();
 	}
 
 	void Start() {
@@ -49,8 +53,21 @@ public class CameraControl : MonoBehaviour {
 		fadeSpeed = speed;
 	}
 
+	public void SetText(string s) {
+		text.text = s;
+	}
+	
+	public void FadeTextIn() {
+		textColorTarget = Color.white;
+	}
+
+	public void FadeTextOut() {
+		textColorTarget = Color.clear;
+	}
+
 	void LateUpdate() {
 		t.rotation = Quaternion.RotateTowards(t.rotation, rotTarget, rotSpeed * Time.deltaTime);
 		fader.color = (Color)Vector4.MoveTowards(fader.color, colorTarget, fadeSpeed * Time.deltaTime);
+		text.color = (Color)Vector4.MoveTowards(text.color, textColorTarget, fadeSpeed * Time.deltaTime);
 	}
 }
