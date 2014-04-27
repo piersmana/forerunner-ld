@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	IEnumerator OpeningSequence() {
-		cam.SetText("your most precious cargo:\n\n\n\na message...\n\n\n\n...and a warning");
+		cam.SetText("you carry a message...\n\n\n\n...and a warning");
 		cam.FadeToColor(Color.black, 40f);
 		cam.FadeTextIn();
 
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds(2);
 
 		cam.FadeToColor(Color.clear, 40f);
-		cam.SetText("press [SPACE] to fly\n\n\n");
+		cam.SetText("press [SPACE] to start\n\n\n");
 		cam.FadeTextIn();
 
 		while (true) {
@@ -70,8 +70,6 @@ public class GameManager : MonoBehaviour {
 			}
 			yield return null;
 		}
-
-		p_input.enabled = true;
 
 		cam.SetText("move with WASD or\n the arrow keys\n\n\n\n");
 		StartCoroutine("StartGame");
@@ -83,6 +81,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	IEnumerator StartGame() {
+		p_input.enabled = true;
+
 		for (int i = 0; i < levels.Length; i++) {
 			while (true) { 
 				for (int j = 0; j < levels[i].countHazards; j++) {
@@ -92,14 +92,81 @@ public class GameManager : MonoBehaviour {
 						yield return new WaitForSeconds(.3f);
 					}
 				}
-				//break;
-				yield return new WaitForSeconds(3f);
+				
+				if (i == levels.Length - 1) {
+					Win ();
+				}
+
+				yield return new WaitForSeconds(4.5f);
+				//Environment nighttime
+				if (i == 0)
+					cam.SetText("hide from nocturnal pursuers\npress [SPACE] to dive\n\n\n\n");
+				if (i == 1)
+					cam.SetText("press [SPACE] to surface\n\n\n");
+				if (i < 2) {
+					cam.FadeToColor(Color.clear,10f);
+					cam.FadeTextIn();
+				}
 				p_dive.enabled = true;
-				yield return new WaitForSeconds(4f);
+				while (true) {
+					if (Input.GetKeyDown(KeyCode.Space)) {
+						cam.FadeTextOut();
+						break;
+					}
+					yield return null;
+				}
 				p_dive.enabled = false;
+
+				yield return new WaitForSeconds(3f);
+
 				break;
 			}
 		}
+	}
+
+	void Win() {
+		StopCoroutine("StartGame");
+		StartCoroutine("WinSequence");
+	}
+
+	IEnumerator WinSequence() {
+		p_dive.enabled = false;
+		p_input.enabled = false;
+		p_movement.MovePlayer(1,1,1f);
+
+		yield return new WaitForSeconds(4f);
+
+		p_movement.MovePlayer(new Vector3(0,0,60),5f);
+		cam.FadeToColor(Color.white,2f);
+
+		yield return new WaitForSeconds(4f);
+
+		cam.FadeToColor(Color.black,2f);
+
+		yield return new WaitForSeconds(2f);
+
+		cam.SetText("the warning reached them in time\nyour home is safe once again");
+		cam.FadeTextIn();
+		yield return new WaitForSeconds(5f);
+		cam.FadeTextOut();
+
+		yield return new WaitForSeconds(2f);
+
+		cam.SetText("press [SPACE] to play again");
+		cam.FadeToColor(Color.black,40f);
+		cam.FadeTextIn();
+		
+		while (true) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				cam.FadeTextOut();
+				break;
+			}
+			yield return null;
+		}
+
+		yield return new WaitForSeconds(1f);
+
+		Application.LoadLevel(Application.loadedLevel);
 	}
 
 	void DeadEnd() {
@@ -110,7 +177,7 @@ public class GameManager : MonoBehaviour {
 	IEnumerator DoDeath() {
 		p_dive.enabled = false;
 		p_input.enabled = false;
-		p_movement.MovePlayer(new Vector3(0,0,-10),1f);
+		p_movement.MovePlayer(new Vector3(0,-10,0),1f);
 		
 		yield return new WaitForSeconds(.3f);
 		
@@ -120,7 +187,7 @@ public class GameManager : MonoBehaviour {
 
 		CameraShake();
 		
-		yield return new WaitForSeconds(.3f);
+		yield return new WaitForSeconds(.3f); 
 		
 		CameraShake();
 

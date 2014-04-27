@@ -3,10 +3,10 @@ using System.Collections;
 
 public struct PlayerLocation {
 
-	public Vector2 pos;
+	public Vector3 pos;
 	public Quaternion rot;
 
-	public PlayerLocation(Vector2 pos, Quaternion rot) {
+	public PlayerLocation(Vector3 pos, Quaternion rot) {
 		this.pos = pos;
 		this.rot = rot;
 	}
@@ -31,17 +31,17 @@ public class PlayerMovementControl : MonoBehaviour {
 		t= transform;
 
 		//Set location array
-		locationArray[0,0] = new PlayerLocation(new Vector2(-1,1)	* movementFromCenter + Vector2.up, Quaternion.Euler(0,0,-55f));
-		locationArray[0,1] = new PlayerLocation(new Vector2(-1,0)	* movementFromCenter + Vector2.up, Quaternion.Euler(0,0,-75f));
-		locationArray[0,2] = new PlayerLocation(new Vector2(-1,-1)	* movementFromCenter			 , Quaternion.Euler(0,0,-55f));
+		locationArray[0,0] = new PlayerLocation(new Vector3(-1,1)	* movementFromCenter + (Vector3)Vector2.up, Quaternion.Euler(0,0,-55f));
+		locationArray[0,1] = new PlayerLocation(new Vector3(-1,0)	* movementFromCenter + (Vector3)Vector2.up, Quaternion.Euler(0,0,-75f));
+		locationArray[0,2] = new PlayerLocation(new Vector3(-1,-1)	* movementFromCenter			 , Quaternion.Euler(0,0,-55f));
 		
-		locationArray[1,0] = new PlayerLocation(new Vector2(0,1)	* movementFromCenter			 , Quaternion.identity);
-		locationArray[1,1] = new PlayerLocation(Vector2.zero										 , Quaternion.identity);
-		locationArray[1,2] = new PlayerLocation(new Vector2(0,-1)	* movementFromCenter			 , Quaternion.identity);
+		locationArray[1,0] = new PlayerLocation(new Vector3(0,1)	* movementFromCenter			 , Quaternion.identity);
+		locationArray[1,1] = new PlayerLocation(Vector3.zero										 , Quaternion.identity);
+		locationArray[1,2] = new PlayerLocation(new Vector3(0,-1)	* movementFromCenter			 , Quaternion.identity);
 
-		locationArray[2,0] = new PlayerLocation(new Vector2(1,1)	* movementFromCenter + Vector2.up, Quaternion.Euler(0,0, 55f));
-		locationArray[2,1] = new PlayerLocation(new Vector2(1,0)	* movementFromCenter + Vector2.up, Quaternion.Euler(0,0, 75f));
-		locationArray[2,2] = new PlayerLocation(new Vector2(1,-1)	* movementFromCenter			 , Quaternion.Euler(0,0, 55f));
+		locationArray[2,0] = new PlayerLocation(new Vector3(1,1)	* movementFromCenter + (Vector3)Vector2.up, Quaternion.Euler(0,0, 55f));
+		locationArray[2,1] = new PlayerLocation(new Vector3(1,0)	* movementFromCenter + (Vector3)Vector2.up, Quaternion.Euler(0,0, 75f));
+		locationArray[2,2] = new PlayerLocation(new Vector3(1,-1)	* movementFromCenter			 , Quaternion.Euler(0,0, 55f));
 
 		currentLoc = locationArray[1,1];
 

@@ -692,7 +692,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1267013086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,21 +705,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - countHazards: 3
-    delayBetween: 2
+  - countHazards: 1
+    delayBetween: 0
     groupHazards: 0
     availHazards:
-    - {fileID: 11400000, guid: 695e7ca4b87ff5143813f48a9f0c0b03, type: 2}
-  - countHazards: 5
-    delayBetween: 1.5
-    groupHazards: 0
-    availHazards:
-    - {fileID: 11400000, guid: 4cb035788571c234d9535172f2b4e270, type: 2}
-  - countHazards: 5
-    delayBetween: 1
-    groupHazards: 1
-    availHazards:
-    - {fileID: 11400000, guid: 9437fedcceefec8488ac4e797e14581c, type: 2}
+    - {fileID: 11400000, guid: 85f41d704b21e4d4bb582466f8128d3d, type: 2}
 --- !u!4 &1267013087
 Transform:
   m_ObjectHideFlags: 0
@@ -1509,6 +1499,98 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2023531815}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2040268282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2040268285}
+  - 114: {fileID: 2040268284}
+  - 114: {fileID: 2040268283}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2040268283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2040268282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 683d1ed37c71f98469bcbcd61802bfcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  environments:
+  - background: {fileID: 2800000, guid: 562910cb1fa2329489629b5852c42447, type: 3}
+    ground: {fileID: 2800000, guid: 9cfbb6b7b33e2084989c87aa19a2a543, type: 3}
+    left: {fileID: 0}
+    right: {fileID: 0}
+    transitionColor: {r: 1, g: 1, b: 1, a: 1}
+    sunBrightness: {r: .996078432, g: .996078432, b: .588235319, a: 0}
+    environmentHeight: 1
+  - background: {fileID: 0}
+    ground: {fileID: 0}
+    left: {fileID: 2800000, guid: 09e149ca5b0bdda4fbd14b198c15257c, type: 3}
+    right: {fileID: 2800000, guid: 09e149ca5b0bdda4fbd14b198c15257c, type: 3}
+    transitionColor: {r: 0, g: 0, b: 0, a: 1}
+    sunBrightness: {r: .316176474, g: .316176474, b: 0, a: 0}
+    environmentHeight: 0
+--- !u!114 &2040268284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2040268282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 497717f2eff6ee4429e9810dd5e7a238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levels:
+  - countHazards: 3
+    delayBetween: 2
+    groupHazards: 0
+    availHazards:
+    - {fileID: 11400000, guid: 695e7ca4b87ff5143813f48a9f0c0b03, type: 2}
+  - countHazards: 5
+    delayBetween: 1.5
+    groupHazards: 0
+    availHazards:
+    - {fileID: 11400000, guid: 4cb035788571c234d9535172f2b4e270, type: 2}
+  - countHazards: 10
+    delayBetween: .5
+    groupHazards: 1
+    availHazards:
+    - {fileID: 11400000, guid: 695e7ca4b87ff5143813f48a9f0c0b03, type: 2}
+  - countHazards: 8
+    delayBetween: 1
+    groupHazards: 1
+    availHazards:
+    - {fileID: 11400000, guid: 4cb035788571c234d9535172f2b4e270, type: 2}
+    - {fileID: 11400000, guid: 9437fedcceefec8488ac4e797e14581c, type: 2}
+  - countHazards: 1
+    delayBetween: 0
+    groupHazards: 0
+    availHazards:
+    - {fileID: 11400000, guid: 85f41d704b21e4d4bb582466f8128d3d, type: 2}
+--- !u!4 &2040268285
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2040268282}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.10331917, y: 3.98411655, z: .522062302}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
 --- !u!1 &2086532818
 GameObject:
   m_ObjectHideFlags: 0
