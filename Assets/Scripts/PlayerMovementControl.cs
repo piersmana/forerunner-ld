@@ -48,13 +48,18 @@ public class PlayerMovementControl : MonoBehaviour {
 		origMovementSpeed = movementSpeed;
 	}
 	
-	public void TriggerPlayerMovement(int x, int y) {
+	public void MovePlayer(int x, int y) {
 		currentLoc = locationArray[x,y];
 		movementSpeed = origMovementSpeed;
 	}
 
-	public void TriggerPlayerMovement(int x, int y, float speed) {
+	public void MovePlayer(int x, int y, float speed) {
 		currentLoc = locationArray[x,y];
+		movementSpeed = speed;
+	}
+
+	public void MovePlayer(Vector3 target, float speed) {
+		currentLoc = new PlayerLocation(target, Quaternion.identity);
 		movementSpeed = speed;
 	}
 
