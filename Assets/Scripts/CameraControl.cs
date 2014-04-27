@@ -31,7 +31,7 @@ public class CameraControl : MonoBehaviour {
 	}
 
 	public void LookUp(float speed) {
-		rotTarget = Quaternion.Euler(-35,0,0);
+		rotTarget = Quaternion.Euler(-70,0,0);
 		rotSpeed = speed;
 	}
 

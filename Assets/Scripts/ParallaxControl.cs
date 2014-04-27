@@ -7,19 +7,27 @@ public class ParallaxControl : MonoBehaviour {
 	public float zoomSpeed = 10f;
 
 	private Material m;
+	private Renderer r;
 	private Vector2 origTiling;
+	private Vector2 currentOffset;
 
 	private Vector2 target;
 
 	void Awake() {
-		m = renderer.material;
-		origTiling = m.mainTextureScale;
-		target = origTiling;
+		r = renderer;
+		m = r.material;
+		m.mainTextureOffset = currentOffset = Vector2.zero;
+		target = origTiling = m.mainTextureScale;
+	}
+
+	void OnEnable() {
+		m = r.material;
+		currentOffset = Vector2.zero;
 	}
 
 	void Update() {
 		m.mainTextureScale = Vector2.MoveTowards(m.mainTextureScale, target, zoomSpeed * Time.deltaTime);
-		m.mainTextureOffset = m.mainTextureOffset + scrollSpeed * Time.deltaTime - m.mainTextureScale / 2;
+		m.mainTextureOffset = (currentOffset += scrollSpeed * Time.deltaTime) - m.mainTextureScale / 2;
 	}
 	
 	public void ZoomOut(float rate) {

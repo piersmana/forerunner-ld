@@ -3,74 +3,139 @@ using System.Collections;
 
 [System.Serializable]
 public class Environment {
-
-	public GameObject activeSet;
-	public Texture activeTexture1;
-	public Texture activeTexture2;
+	
+	public Texture2D background;
+	public Texture2D ground;
+	public Texture2D left;
+	public Texture2D right;
 	public Color transitionColor;
+	public Color sunBrightness;
 	public bool environmentHeight;
-
-
+	
 	public Environment() {
 	}
 }
 
 public class EnvironmentControl : MonoBehaviour {
-
+	
 	public Environment[] environments = new Environment[2];
-
+	
 	public static EnvironmentControl Instance;
-
+	
 	private int activeEnvironment;
+	
+	private static Renderer background;
+	private static Renderer ground;
+	private static Renderer leftside;
+	private static Renderer rightside;
 	
 	private static CameraControl cam;
 	private static PlayerMovementControl playermove;
 	private static PlayerMovementInput playermoveinput;
 	private static PlayerDiveInput playerdive;
-
+	private static Light sun;
+	
 	void Awake() {
+		
 		Instance = this;
 		Instance.activeEnvironment = 0;
+		
+		ParallaxControl[] sceneObjects = GameObject.Find("_World").GetComponentsInChildren<ParallaxControl>(true);
+		
+		foreach (ParallaxControl o in sceneObjects) {
+			switch (o.gameObject.name) {
+			case "Background":
+				background = o.renderer;
+				break;
+			case "Ground":
+				ground = o.renderer;
+				break;
+			case "Left":
+				leftside = o.renderer;
+				break;
+			case "Right":
+				rightside = o.renderer;
+				break;
+			}
+		}
 		
 		cam = GameObject.FindObjectOfType<CameraControl>();
 		playerdive = GameObject.FindObjectOfType<PlayerDiveInput>();
 		playermove = GameObject.FindObjectOfType<PlayerMovementControl>();
 		playermoveinput = GameObject.FindObjectOfType<PlayerMovementInput>();
+		sun = GameObject.Find ("_Sun").light;
 	}
-
+	
 	void Start() {
 	}
-
+	
 	public static void ShiftEnvironment() {
-		Instance.StartCoroutine(TransitionEnvironment(Instance.environments[Instance.activeEnvironment], Instance.environments[(Instance.activeEnvironment + 1) % Instance.environments.Length]));
 		Instance.activeEnvironment = (Instance.activeEnvironment + 1) % Instance.environments.Length;
+		Instance.StartCoroutine(TransitionEnvironment(Instance.environments[Instance.activeEnvironment]));
 	}
-
-	static IEnumerator TransitionEnvironment(Environment from, Environment to) {
+	
+	static IEnumerator TransitionEnvironment(Environment to) {
 		playermoveinput.enabled = false;
 		playerdive.enabled = false;
 		playermove.TriggerPlayerMovement(1,1,1);
 		if (to.environmentHeight) 
-			cam.LookUp(25f);
+			cam.LookUp(40f);
 		else
-			cam.LookDown(25f);
+			cam.LookDown(40f);
+
+		ground.GetComponent<ParallaxControl>().ZoomIn(20f);
 
 		yield return new WaitForSeconds(1.5f);
 
+		playermove.TriggerPlayerMovement(1,0,4);
+		
 		cam.FadeToColor(to.transitionColor,5f);
 		
 		yield return new WaitForSeconds(.5f);
-
-		cam.LookLevel(20f);
+		
+		cam.LookLevel(40f);
 
 		yield return new WaitForSeconds(1f);
 
-		from.activeSet.SetActive(false);
-		to.activeSet.SetActive(true);
+		playermove.TriggerPlayerMovement(1,1,1);
+		
+		if (to.background != null) {
+			background.gameObject.SetActive(true);
+			background.material.mainTexture = to.background;
+		}
+		else {
+			background.gameObject.SetActive(false);
+		}
+		if (to.ground != null) {
+			ground.gameObject.SetActive(true);
+			ground.material.mainTexture = to.ground;
+		}
+		else {
+			ground.gameObject.SetActive(false);
+		}
+		if (to.left != null) {
+			leftside.gameObject.SetActive(true);
+			leftside.material.mainTexture = to.left;
+		}
+		else {
+			leftside.gameObject.SetActive(false);
+		}
+		if (to.right != null) {
+			rightside.gameObject.SetActive(true);
+			rightside.material.mainTexture = to.right;
+		}
+		else {
+			rightside.gameObject.SetActive(false);
+		}
+		
+		ground.GetComponent<ParallaxControl>().ZoomOut(20f);
+
+		sun.color = to.sunBrightness;
+		
 		cam.FadeToColor(Color.clear,.5f);
-
+		
 		yield return new WaitForSeconds(1.5f);
-
+		
 		playermoveinput.enabled = true;
 		playerdive.enabled = true;
 	}
