@@ -66,7 +66,9 @@ public class EnvironmentControl : MonoBehaviour {
 		sun = GameObject.Find ("_Sun").light;
 	}
 	
-	void Start() {
+	public static void Reset() {
+		Instance.activeEnvironment = -1;
+		ShiftEnvironment();
 	}
 	
 	public static void ShiftEnvironment() {

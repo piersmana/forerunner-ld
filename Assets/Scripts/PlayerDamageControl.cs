@@ -29,15 +29,16 @@ public class PlayerDamageControl : MonoBehaviour {
 	}
 
 	void Damaged() {
-		StartCoroutine("Invulnerable");
 		playerHealth--;
 		if (playerHealth <= 0)
 			playerDied();
+		else 
+			StartCoroutine("Invulnerable",postDamageInvuln);
 	}
 
-	IEnumerator Invulnerable() {
+	IEnumerator Invulnerable(float duration) {
 		invulnerable = true;
-		float remaining = postDamageInvuln;
+		float remaining = duration;
 		while (remaining > 0) {
 			body.SetActive(!body.activeSelf);
 			remaining -= .15f;
@@ -48,6 +49,7 @@ public class PlayerDamageControl : MonoBehaviour {
 	}
 
 	void Dead() {
-		print ("ded");
+		StartCoroutine("Invulnerable",10f);
+		playerHealth = 3;
 	}
 }

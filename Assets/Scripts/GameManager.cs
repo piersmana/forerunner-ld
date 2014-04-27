@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start() {
 		p_damage.playerDamaged += CameraShake;
+		p_damage.playerDied += DeadEnd;
 		StartCoroutine("OpeningSequence");
 	}
 
@@ -65,15 +66,23 @@ public class GameManager : MonoBehaviour {
 
 		while (true) {
 			if (Input.GetKeyDown(KeyCode.Space)) {
-				StartCoroutine("StartGame");
 				break;
 			}
 			yield return null;
 		}
+
+		p_input.enabled = true;
+
+		cam.SetText("move with WASD or\n the arrow keys\n\n\n\n");
+		StartCoroutine("StartGame");
+		
+		yield return new WaitForSeconds(3);
+
+		cam.FadeTextOut();
+
 	}
 
 	IEnumerator StartGame() {
-		cam.FadeTextOut();
 		for (int i = 0; i < levels.Length; i++) {
 			while (true) { 
 				for (int j = 0; j < levels[i].countHazards; j++) {
@@ -93,18 +102,74 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	void DeadEnd() {
+		StopCoroutine("StartGame");
+		StartCoroutine("DoDeath");
+	}
+
+	IEnumerator DoDeath() {
+		p_dive.enabled = false;
+		p_input.enabled = false;
+		p_movement.MovePlayer(new Vector3(0,0,-10),1f);
+		
+		yield return new WaitForSeconds(.3f);
+		
+		CameraShake();
+
+		yield return new WaitForSeconds(.3f);
+
+		CameraShake();
+		
+		yield return new WaitForSeconds(.3f);
+		
+		CameraShake();
+
+		yield return new WaitForSeconds(1f);
+
+		cam.FadeToColor(Color.black,2f);
+
+		yield return new WaitForSeconds(2f);
+
+		cam.SetText("but the warning never came...");
+		cam.FadeTextIn();
+
+		yield return new WaitForSeconds(3f);
+
+		cam.FadeToColor(Color.black,2f);
+		cam.FadeTextOut();
+
+		yield return new WaitForSeconds(2f);
+		
+		cam.FadeToColor(Color.black,40f);
+		cam.SetText("press [SPACE] to continue");
+		cam.FadeTextIn();
+
+		while (true) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				break;
+			}
+			yield return null;
+		}
+
+		cam.FadeTextOut();
+
+		EnvironmentControl.Reset();
+
+		yield return new WaitForSeconds(2f);
+
+		StartCoroutine("StartGame");
+	}
+
 	void SpawnRandomHazard(ref Hazard[] hazards) {
 		Instantiate(hazards[Random.Range(0,hazards.Length)].gameObject);
 	}
 
 	void CameraShake() {
 		cam.FadeToColor(Color.red,8f);
-		StartCoroutine("Shake");
+		StartCoroutine("Shake",3);
 	}
 
-	IEnumerator Shake() {
-		int shakeCount = 3;
-		Vector3 startpos = cam.transform.position;
+	IEnumerator Shake(int shakeCount) {
 		while (shakeCount > 0) {
 			cam.transform.position += new Vector3(0,.2f);
 			yield return new WaitForSeconds(.05f);
@@ -113,6 +178,6 @@ public class GameManager : MonoBehaviour {
 			cam.FadeToColor(Color.clear,1f);
 			shakeCount --;
 		}
-		cam.transform.position = startpos;
+		cam.transform.position = Vector3.zero;
 	}
 }
