@@ -708,17 +708,17 @@ MonoBehaviour:
     delayBetween: 2
     groupHazards: 0
     availHazards:
-    - {fileID: 11400000, guid: de16b3dab92f7d74fa0e31c5e1b65671, type: 2}
+    - {fileID: 11400000, guid: 695e7ca4b87ff5143813f48a9f0c0b03, type: 2}
   - countHazards: 5
     delayBetween: 1.5
     groupHazards: 0
     availHazards:
-    - {fileID: 11400000, guid: b8f6e3b6714f32740bb01b3902d224c7, type: 2}
+    - {fileID: 11400000, guid: 9437fedcceefec8488ac4e797e14581c, type: 2}
   - countHazards: 5
     delayBetween: 1
     groupHazards: 1
     availHazards:
-    - {fileID: 11400000, guid: b8f6e3b6714f32740bb01b3902d224c7, type: 2}
+    - {fileID: 11400000, guid: 9437fedcceefec8488ac4e797e14581c, type: 2}
 --- !u!4 &1267013087
 Transform:
   m_ObjectHideFlags: 0
@@ -1288,6 +1288,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380ed1494b7e8e3418afc5e031b0bdf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHealth: 3
+  postDamageInvuln: 1
+  invulnerable: 0
 --- !u!54 &2016071939
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1300,7 +1303,7 @@ Rigidbody:
   m_AngularDrag: .0500000007
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
 --- !u!1 &2023531815

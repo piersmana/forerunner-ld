@@ -77,7 +77,7 @@ public class EnvironmentControl : MonoBehaviour {
 	static IEnumerator TransitionEnvironment(Environment to) {
 		playermoveinput.enabled = false;
 		playerdive.enabled = false;
-		playermove.TriggerPlayerMovement(1,1,1);
+		playermove.MovePlayer(1,1,1);
 		if (to.environmentHeight) 
 			cam.LookUp(40f);
 		else
@@ -87,7 +87,7 @@ public class EnvironmentControl : MonoBehaviour {
 
 		yield return new WaitForSeconds(1.5f);
 
-		playermove.TriggerPlayerMovement(1,0,4);
+		playermove.MovePlayer(1,0,4);
 		
 		cam.FadeToColor(to.transitionColor,5f);
 		
@@ -97,7 +97,7 @@ public class EnvironmentControl : MonoBehaviour {
 
 		yield return new WaitForSeconds(1f);
 
-		playermove.TriggerPlayerMovement(1,1,1);
+		playermove.MovePlayer(1,1,1);
 		
 		if (to.background != null) {
 			background.gameObject.SetActive(true);

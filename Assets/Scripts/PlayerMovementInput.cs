@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerMovementInput : MonoBehaviour {
@@ -12,7 +12,7 @@ public class PlayerMovementInput : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		movement.TriggerPlayerMovement(1 + (int)Input.GetAxis("Horizontal"), 1 - (int)Input.GetAxis("Vertical"));
+		movement.MovePlayer(1 + (int)Input.GetAxis("Horizontal"), 1 - (int)Input.GetAxis("Vertical"));
 
 	}
 }

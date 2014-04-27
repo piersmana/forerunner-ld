@@ -21,12 +21,12 @@ public class Hazard : MonoBehaviour {
 
 	void Start() {
 		if (!fixedPlacement) 
-			t.position = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(Mathf.Clamp(Random.Range(-2f,2f),-6,6), Mathf.Clamp(Random.Range(-2f,2f),-6,6), startPos.z);
+			t.position = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(Random.Range(-2f,2f), Random.Range(-2f,2f), startPos.z);
 		else
 			t.position = startPos;
 		
 		if (!fixedRotation) 
-			t.rotation = Quaternion.Euler(startRot.x, startRot.y, Random.Range(-90f,90f));
+			t.rotation = Quaternion.Euler(startRot.x, startRot.y, Random.Range(-180f,180f));
 		else
 			t.rotation = Quaternion.Euler(startRot);
 

@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start() {
+		p_damage.playerDamaged += CameraShake;
 		StartCoroutine("StartGame");
 	}
 
@@ -54,5 +55,24 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnRandomHazard(ref Hazard[] hazards) {
 		Instantiate(hazards[Random.Range(0,hazards.Length)].gameObject);
+	}
+
+	void CameraShake() {
+		cam.FadeToColor(Color.red,8f);
+		StartCoroutine("Shake");
+	}
+
+	IEnumerator Shake() {
+		int shakeCount = 3;
+		Vector3 startpos = cam.transform.position;
+		while (shakeCount > 0) {
+			cam.transform.position += new Vector3(0,.2f);
+			yield return new WaitForSeconds(.05f);
+			cam.transform.position += new Vector3(0,-.2f);
+			yield return new WaitForSeconds(.05f);
+			cam.FadeToColor(Color.clear,1f);
+			shakeCount --;
+		}
+		cam.transform.position = startpos;
 	}
 }
