@@ -1554,7 +1554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - countHazards: 3
+  - countHazards: 4
     delayBetween: 2
     groupHazards: 0
     availHazards:
@@ -1565,8 +1565,8 @@ MonoBehaviour:
     availHazards:
     - {fileID: 11400000, guid: 4cb035788571c234d9535172f2b4e270, type: 2}
   - countHazards: 10
-    delayBetween: .5
-    groupHazards: 1
+    delayBetween: .200000003
+    groupHazards: 0
     availHazards:
     - {fileID: 11400000, guid: 695e7ca4b87ff5143813f48a9f0c0b03, type: 2}
   - countHazards: 8

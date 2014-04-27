@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour {
 
 		for (int i = 0; i < levels.Length; i++) {
 			while (true) { 
+				p_input.enabled = true;
 				for (int j = 0; j < levels[i].countHazards; j++) {
 					yield return new WaitForSeconds(levels[i].delayBetween);
 					for (int k = -1; k < levels[i].groupHazards; k++) {
@@ -99,6 +100,8 @@ public class GameManager : MonoBehaviour {
 
 				yield return new WaitForSeconds(4.5f);
 				//Environment nighttime
+				EnvironmentControl.Nighttime();
+
 				if (i == 0)
 					cam.SetText("hide from nocturnal pursuers\npress [SPACE] to dive\n\n\n\n");
 				if (i == 1)
@@ -110,11 +113,11 @@ public class GameManager : MonoBehaviour {
 				p_dive.enabled = true;
 				while (true) {
 					if (Input.GetKeyDown(KeyCode.Space)) {
-						cam.FadeTextOut();
 						break;
 					}
 					yield return null;
 				}
+				cam.FadeTextOut();
 				p_dive.enabled = false;
 
 				yield return new WaitForSeconds(3f);
@@ -158,11 +161,12 @@ public class GameManager : MonoBehaviour {
 		
 		while (true) {
 			if (Input.GetKeyDown(KeyCode.Space)) {
-				cam.FadeTextOut();
 				break;
 			}
 			yield return null;
 		}
+		
+		cam.FadeTextOut();
 
 		yield return new WaitForSeconds(1f);
 
