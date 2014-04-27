@@ -45,8 +45,9 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 				//break;
+				yield return new WaitForSeconds(3f);
 				p_dive.enabled = true;
-				yield return new WaitForSeconds(6f);
+				yield return new WaitForSeconds(4f);
 				p_dive.enabled = false;
 				break;
 			}
