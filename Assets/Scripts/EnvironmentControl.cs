@@ -66,24 +66,46 @@ public class EnvironmentControl : MonoBehaviour {
 		sun = GameObject.Find ("_Sun").light;
 	}
 	
-	void Start() {
+	public static void Reset() {
+		Instance.activeEnvironment = -1;
+		ShiftEnvironment();
 	}
 	
 	public static void ShiftEnvironment() {
 		Instance.activeEnvironment = (Instance.activeEnvironment + 1) % Instance.environments.Length;
 		Instance.StartCoroutine(TransitionEnvironment(Instance.environments[Instance.activeEnvironment]));
 	}
-	
+
+	public static void Nighttime() {
+		Instance.StartCoroutine(StartNight());
+	}
+
+	static IEnumerator StartNight() {
+		Color nightHue = Color.red;
+		Material mb = background.material;
+		Material mf = ground.material;
+
+		while (mb.color != nightHue) {
+			mb.color = (Color)Vector4.MoveTowards(mb.color,nightHue, Time.deltaTime);
+			mf.color = (Color)Vector4.MoveTowards(mf.color,nightHue, Time.deltaTime);
+			yield return null;
+		}
+	}
+
 	static IEnumerator TransitionEnvironment(Environment to) {
 		playermoveinput.enabled = false;
 		playerdive.enabled = false;
 		playermove.MovePlayer(1,1,1);
-		if (to.environmentHeight) 
+		if (to.environmentHeight) {
 			cam.LookUp(40f);
-		else
+			MusicControl.PlayDay();
+		}
+		else {
 			cam.LookDown(40f);
+			MusicControl.PlayNight();
+		}
 
-		ground.GetComponent<ParallaxControl>().ZoomIn(20f);
+		ground.GetComponent<ParallaxControl>().ZoomIn(5f);
 
 		yield return new WaitForSeconds(1.5f);
 
@@ -102,6 +124,7 @@ public class EnvironmentControl : MonoBehaviour {
 		if (to.background != null) {
 			background.gameObject.SetActive(true);
 			background.material.mainTexture = to.background;
+			background.material.color = Color.white;
 		}
 		else {
 			background.gameObject.SetActive(false);
@@ -109,6 +132,7 @@ public class EnvironmentControl : MonoBehaviour {
 		if (to.ground != null) {
 			ground.gameObject.SetActive(true);
 			ground.material.mainTexture = to.ground;
+			ground.material.color = Color.white;
 		}
 		else {
 			ground.gameObject.SetActive(false);
@@ -128,15 +152,12 @@ public class EnvironmentControl : MonoBehaviour {
 			rightside.gameObject.SetActive(false);
 		}
 		
-		ground.GetComponent<ParallaxControl>().ZoomOut(20f);
+		ground.GetComponent<ParallaxControl>().ZoomOut(5f);
 
 		sun.color = to.sunBrightness;
 		
 		cam.FadeToColor(Color.clear,.5f);
 		
 		yield return new WaitForSeconds(1.5f);
-		
-		playermoveinput.enabled = true;
-		playerdive.enabled = true;
 	}
 }

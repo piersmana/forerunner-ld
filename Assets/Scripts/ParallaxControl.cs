@@ -36,7 +36,7 @@ public class ParallaxControl : MonoBehaviour {
 	}
 
 	public void ZoomIn(float rate) {
-		target = Vector2.one;
+		target = Vector2.one / 5f;
 		zoomSpeed = rate;
 	}
 }
