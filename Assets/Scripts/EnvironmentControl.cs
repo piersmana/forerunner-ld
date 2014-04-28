@@ -96,10 +96,14 @@ public class EnvironmentControl : MonoBehaviour {
 		playermoveinput.enabled = false;
 		playerdive.enabled = false;
 		playermove.MovePlayer(1,1,1);
-		if (to.environmentHeight) 
+		if (to.environmentHeight) {
 			cam.LookUp(40f);
-		else
+			MusicControl.PlayDay();
+		}
+		else {
 			cam.LookDown(40f);
+			MusicControl.PlayNight();
+		}
 
 		ground.GetComponent<ParallaxControl>().ZoomIn(5f);
 

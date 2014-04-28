@@ -36,25 +36,29 @@ public class GameManager : MonoBehaviour {
 	}
 
 	IEnumerator OpeningSequence() {
-		cam.SetText("you carry a message...\n\n\n\n...and a warning");
 		cam.FadeToColor(Color.black, 40f);
+		MusicControl.PlayOpening();
+
+		yield return new WaitForSeconds(3f);
+
+		cam.FadeToColor(Color.black, 2f);
+		cam.SetText("you carry a message...\n\n\n\n...and a warning");
 		cam.FadeTextIn();
 
 		yield return new WaitForSeconds(4);
 
-		cam.FadeToColor(Color.black, 2f);
 		cam.FadeTextOut();
 
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(2.5f);
 
 		cam.SetText("you are the FORERUNNER\n\n\n");
 		cam.FadeTextIn();
 		
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(3);
 
 		cam.FadeToColor(Color.clear, 2f);
 
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(2);
 
 		cam.FadeTextOut();
 
@@ -70,6 +74,8 @@ public class GameManager : MonoBehaviour {
 			}
 			yield return null;
 		}
+
+		MusicControl.PlayDay();
 
 		cam.SetText("move with WASD or\n the arrow keys\n\n\n\n");
 		StartCoroutine("StartGame");
@@ -142,7 +148,7 @@ public class GameManager : MonoBehaviour {
 		p_movement.MovePlayer(new Vector3(0,0,60),5f);
 		cam.FadeToColor(Color.white,2f);
 
-		yield return new WaitForSeconds(4f);
+		yield return new WaitForSeconds(2f);
 
 		cam.FadeToColor(Color.black,2f);
 

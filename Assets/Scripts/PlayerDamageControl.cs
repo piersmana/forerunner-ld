@@ -29,6 +29,7 @@ public class PlayerDamageControl : MonoBehaviour {
 	}
 
 	void Damaged() {
+		MusicControl.PlayDamage();
 		playerHealth--;
 		if (playerHealth <= 0)
 			playerDied();
